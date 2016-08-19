@@ -10,14 +10,14 @@ const gulp = require('gulp'),
       browserSync = require('browser-sync').create();
 
 gulp.task('lint', () =>
-    gulp.src(['src/js/**.js'])
+    gulp.src(['src/js/*.js'])
         .pipe(plugins.eslint())
         .pipe(plugins.eslint.format())
         .pipe(plugins.eslint.failAfterError())
 );
 
 gulp.task('compile:js', ['lint'], () =>
-    gulp.src(['src/js/**.js'])
+    gulp.src(['src/js/*.js'])
         .pipe(plugins.sourcemaps.init())
         .pipe(plugins.babel({
             presets: ['es2015']
@@ -28,13 +28,23 @@ gulp.task('compile:js', ['lint'], () =>
         .pipe(gulp.dest('dist/js'))
 );
 
+gulp.task('compile:sass', () =>
+    gulp.src(['src/sass/*.scss'])
+        .pipe(plugins.sourcemaps.init())
+        .pipe(plugins.sass())
+        .pipe(plugins.cleanCss())
+        .pipe(plugins.rename({ extname: '.min.css' }))
+        .pipe(plugins.sourcemaps.write('./'))
+        .pipe(gulp.dest('dist/css'))
+);
+
 gulp.task('compile:html', () =>
-    gulp.src(['src/**/**.pug'])
+    gulp.src(['src/**/*.pug'])
         .pipe(plugins.pug())
         .pipe(gulp.dest('dist'))
 );
 
-gulp.task('default', ['compile:html', 'compile:js']);
+gulp.task('default', ['compile:html', 'compile:js', 'compile:sass']);
 
 gulp.task('watch', () => {
     browserSync.init({
@@ -43,6 +53,7 @@ gulp.task('watch', () => {
         }
     });
 
-    gulp.watch('src/js/**.js', ['compile:js']).on('change', browserSync.reload);
-    gulp.watch('src/**/**.pug', ['compile:html']).on('change', browserSync.reload);
+    gulp.watch('src/js/*.js', ['compile:js']).on('change', browserSync.reload);
+    gulp.watch('src/sass/*.scss', ['compile:sass']).on('change', browserSync.reload);
+    gulp.watch('src/**/*.pug', ['compile:html']).on('change', browserSync.reload);
 });
