@@ -28,4 +28,21 @@ gulp.task('compile:js', ['lint'], () =>
         .pipe(gulp.dest('dist/js'))
 );
 
-gulp.task('default', ['compile:js']);
+gulp.task('compile:html', () =>
+    gulp.src(['src/**/**.pug'])
+        .pipe(plugins.pug())
+        .pipe(gulp.dest('dist'))
+);
+
+gulp.task('default', ['compile:html', 'compile:js']);
+
+gulp.task('watch', () => {
+    browserSync.init({
+        server: {
+            baseDir: './dist'
+        }
+    });
+
+    gulp.watch('src/js/**.js', ['compile:js']).on('change', browserSync.reload);
+    gulp.watch('src/**/**.pug', ['compile:html']).on('change', browserSync.reload);
+});
