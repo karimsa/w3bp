@@ -7,7 +7,8 @@
 
 const gulp = require('gulp'),
       plugins = require('gulp-load-plugins')(),
-      browserSync = require('browser-sync').create();
+      browserSync = require('browser-sync').create(),
+      nib = require('nib');
 
 gulp.task('lint', () =>
     gulp.src(['src/js/*.js'])
@@ -28,11 +29,13 @@ gulp.task('compile:js', ['lint'], () =>
         .pipe(gulp.dest('dist/js'))
 );
 
-gulp.task('compile:sass', () =>
-    gulp.src(['src/sass/*.scss'])
+gulp.task('compile:css', () =>
+    gulp.src(['src/stylus/*.styl'])
         .pipe(plugins.sourcemaps.init())
-        .pipe(plugins.sass())
-        .pipe(plugins.cleanCss())
+        .pipe(plugins.stylus({
+            use: nib(),
+            compress: true
+        }))
         .pipe(plugins.rename({ extname: '.min.css' }))
         .pipe(plugins.sourcemaps.write('./'))
         .pipe(gulp.dest('dist/css'))
@@ -55,7 +58,7 @@ gulp.task('compress:images', () =>
         .pipe(gulp.dest('dist/img'))
 );
 
-gulp.task('default', ['compile:html', 'compile:js', 'compile:sass', 'compress:images', 'copy:files']);
+gulp.task('default', ['compile:html', 'compile:js', 'compile:css', 'compress:images', 'copy:files']);
 
 gulp.task('watch', () => {
     browserSync.init({
@@ -65,7 +68,7 @@ gulp.task('watch', () => {
     });
 
     gulp.watch('src/js/*.js', ['compile:js']).on('change', browserSync.reload);
-    gulp.watch('src/sass/*.scss', ['compile:sass']).on('change', browserSync.reload);
+    gulp.watch('src/stylus/*.styl', ['compile:css']).on('change', browserSync.reload);
     gulp.watch('src/**/*.pug', ['compile:html']).on('change', browserSync.reload);
     gulp.watch(['src/img/*.png', 'src/img/*.jpg'], ['compress:images']).on('change', browserSync.reload);
 });
