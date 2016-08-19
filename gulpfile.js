@@ -44,7 +44,12 @@ gulp.task('compile:html', () =>
         .pipe(gulp.dest('dist'))
 );
 
-gulp.task('default', ['compile:html', 'compile:js', 'compile:sass']);
+gulp.task('copy:files', () =>
+    gulp.src(['src/404.html', 'src/*.txt'])
+        .pipe(gulp.dest('dist'))
+);
+
+gulp.task('default', ['compile:html', 'compile:js', 'compile:sass', 'copy:files']);
 
 gulp.task('watch', () => {
     browserSync.init({
