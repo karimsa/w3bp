@@ -5,7 +5,8 @@ A boilerplate for web-based applications based on H5BP but simpler.
 ## Features
 
  - Pug (or jade) as the preprocessor for web pages.
- - SASS as the preprocessor for stylesheets.
+ - Stylus as the preprocessor for stylesheets.
+  - With nib to provide CSS3 extensions.
  - Babel.js transpiling all JavaScript to ES5.
  - All images are minifed before copying into output.
 
