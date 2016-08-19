@@ -6,9 +6,9 @@
  * Copyright (C) 2016 Karim Alibhai.
  */
 
-.full
-    display: table
+@import mixins
 
+.full
     &,
     /html,
     /body
@@ -16,8 +16,7 @@
         height: 100%
 
     .wrapper
-        display: table-cell
-        vertical-align: middle
+        middle()
         text-align: center
 
 .navbar-default.navbar-static-top
