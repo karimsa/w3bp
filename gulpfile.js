@@ -49,7 +49,13 @@ gulp.task('copy:files', () =>
         .pipe(gulp.dest('dist'))
 );
 
-gulp.task('default', ['compile:html', 'compile:js', 'compile:sass', 'copy:files']);
+gulp.task('compress:images', () =>
+    gulp.src(['src/img/*.png', 'src/img/*.jpg'])
+        .pipe(plugins.imagemin())
+        .pipe(gulp.dest('dist/img'))
+);
+
+gulp.task('default', ['compile:html', 'compile:js', 'compile:sass', 'compress:images', 'copy:files']);
 
 gulp.task('watch', () => {
     browserSync.init({
