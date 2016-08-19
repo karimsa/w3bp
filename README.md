@@ -1,18 +1,26 @@
-# w3bp
+# W3BP
 
-A boilerplate for web-based applications.
+A boilerplate for web-based applications based on H5BP but simpler.
+
+## Features
+
+ - Pug (or jade) as the preprocessor for web pages.
+ - SASS as the preprocessor for stylesheets.
+ - Babel.js transpiling all JavaScript to ES5.
+ - All images are minifed before copying into output.
 
 ## Usage
 
 To use, simply fork/clone the repo and start modifying files.
+If there's anything wrong or you think it's missing something, please submit issues and PRs.
 
 **Notes:**
 
  - Uses `gulp` as the build system.
   - `gulp` or `gulp default` will build the application into the 'dist' directory.
   - `gulp watch` will:
-   - launch an instance of lite-server in the 'dist' folder
-   - watch for file changes and rebuild the application 
+   - Enable browser-sync for the distribution directory.
+   - Watch for file changes, rebuild the respective sources, then reload browser-sync. 
 
 ## Author
 
